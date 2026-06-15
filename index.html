@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>elpalta.cl — Paltas y más a domicilio</title>
+  <meta name="description" content="Pide paltas, huevos y más. Despacho a domicilio en Temuco.">
+  <meta name="theme-color" content="#2D6A1F">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --verde: #2D6A1F;
+      --verde-dark: #1A4A12;
+      --verde-mid: #3B6D11;
+      --verde-light: #EAF3DE;
+      --verde-border: #C0DD97;
+      --amarillo: #C8E668;
+      --crema: #F5F0DC;
+      --crema-dark: #EDE8D0;
+      --text: #1A1A1A;
+      --text-2: #555;
+      --text-3: #888;
+      --surface: #FFFFFF;
+      --border: #E0DDD0;
+      --radius: 14px;
+      --radius-sm: 8px;
+    }
+
+    html { background: var(--crema); }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      max-width: 430px;
+      margin: 0 auto;
+      background: var(--crema);
+      font-size: 15px;
+    }
+
+    /* HEADER */
+    .header {
+      background: var(--verde);
+      padding: 20px 18px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding-bottom: 14px;
+    }
+    .logo { line-height: 1; }
+    .logo-main {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--amarillo);
+      letter-spacing: -0.5px;
+    }
+    .logo-main span { color: rgba(200,230,104,0.5); font-size: 16px; }
+    .logo-sub { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 3px; }
+    .cart-btn {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: #fff;
+      border-radius: 20px;
+      padding: 7px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: inherit;
+    }
+    .cart-btn .n {
+      background: var(--amarillo);
+      color: var(--verde-dark);
+      border-radius: 10px;
+      padding: 1px 7px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* AGENDA BANNER */
+    .agenda {
+      background: var(--verde-dark);
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .agenda-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--amarillo);
+      flex-shrink: 0;
+      animation: pulso 2s infinite;
+    }
+    @keyframes pulso { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .agenda-texto { flex: 1; }
+    .agenda-titulo { font-size: 13px; font-weight: 500; color: var(--amarillo); }
+    .agenda-sub { font-size: 11px; color: rgba(200,230,104,0.6); margin-top: 2px; }
+
+    /* CATEGORÍAS */
+    .cats {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 18px;
+      overflow-x: auto;
+      white-space: nowrap;
+      scrollbar-width: none;
+    }
+    .cats::-webkit-scrollbar { display: none; }
+    .cat {
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-2);
+      cursor: pointer;
+      margin-right: 8px;
+      background: var(--surface);
+      transition: all 0.15s;
+    }
+    .cat.active { background: var(--verde); border-color: var(--verde); color: #fff; }
+
+    /* SECCIÓN */
+    .section { padding: 16px 18px; }
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-3);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+    }
+
+    /* TEMPORADA TAG */
+    .temp-tags { margin-bottom: 12px; display: flex; flex-wrap: wrap; gap: 6px; }
+    .temp-tag {
+      background: #FFF8E8;
+      border: 0.5px solid #F0D090;
+      border-radius: 6px;
+      padding: 4px 12px;
+      font-size: 12px;
+      color: #854F0B;
+    }
+
+    /* GRID PRODUCTOS */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .card-img {
+      height: 90px;
+      background: var(--crema);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+    }
+    .card-body { padding: 10px 12px 12px; }
+    .card-name { font-size: 13px; font-weight: 500; color: var(--text); line-height: 1.3; }
+    .card-desc { font-size: 11px; color: var(--text-3); margin-top: 2px; }
+    .card-price { font-size: 15px; font-weight: 600; color: var(--verde); margin-top: 5px; }
+    .add-btn {
+      width: 100%;
+      margin-top: 8px;
+      padding: 7px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--verde);
+      background: transparent;
+      color: var(--verde);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s;
+    }
+    .add-btn:hover { background: var(--verde-light); }
+    .add-btn.in { background: var(--verde); color: #fff; }
+
+    /* INSTAGRAM BANNER */
+    .ig-banner {
+      margin: 0 18px 8px;
+      background: linear-gradient(135deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .ig-banner span { font-size: 13px; color: #fff; font-weight: 500; }
+    .ig-banner small { font-size: 11px; color: rgba(255,255,255,0.75); display: block; margin-top: 1px; }
+
+    /* DIVIDER */
+    .divider { height: 0.5px; background: var(--border); margin: 4px 18px 16px; }
+
+    /* CARRITO BARRA */
+    .cart-bar {
+      margin: 0 18px 20px;
+      background: var(--verde);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+    .cart-bar-left { display: flex; align-items: center; gap: 8px; color: #fff; font-size: 14px; font-weight: 500; }
+    .cart-bar-badge {
+      background: rgba(200,230,104,0.25);
+      color: var(--amarillo);
+      border-radius: 20px;
+      padding: 2px 10px;
+      font-size: 12px;
+    }
+
+    /* OVERLAY */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 200;
+    }
+    .overlay.open { display: block; }
+
+    /* DRAWER */
+    .drawer {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      width: 100%;
+      max-width: 430px;
+      background: var(--surface);
+      border-radius: 20px 20px 0 0;
+      z-index: 201;
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(-50%) translateY(100%);
+      transition: transform 0.3s cubic-bezier(0.32,0.72,0,1);
+    }
+    .drawer.open { transform: translateX(-50%) translateY(0); }
+    .handle { width: 40px; height: 4px; background: var(--border); border-radius: 2px; margin: 12px auto 0; flex-shrink: 0; }
+    .drawer-header {
+      padding: 14px 18px 12px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .drawer-header h2 { font-size: 17px; font-weight: 600; }
+    .close-btn {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      border: none;
+      background: var(--crema);
+      color: var(--text-2);
+      font-size: 16px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-family: inherit;
+    }
+    .drawer-body { overflow-y: auto; flex: 1; padding: 0 18px; }
+    .drawer-footer { padding: 14px 18px 28px; border-top: 1px solid var(--border); flex-shrink: 0; }
+
+    /* ITEMS CARRITO */
+    .cart-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .cart-item:last-child { border-bottom: none; }
+    .ci-icon { font-size: 26px; flex-shrink: 0; }
+    .ci-info { flex: 1; }
+    .ci-name { font-size: 14px; font-weight: 500; }
+    .ci-unit { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+    .qty-ctrl { display: flex; align-items: center; gap: 8px; }
+    .qty-btn {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 16px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-family: inherit;
+    }
+    .qty-btn.rm { border-color: #fcc; color: #c00; }
+    .qty-num { font-size: 15px; font-weight: 600; min-width: 20px; text-align: center; }
+    .ci-price { font-size: 14px; font-weight: 600; color: var(--verde); margin-left: 6px; }
+
+    /* TOTALES */
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--text-2);
+      margin-bottom: 6px;
+    }
+    .total-final {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+    }
+    .total-final span:last-child { color: var(--verde); }
+
+    /* FORMULARIO */
+    .field { margin-bottom: 14px; }
+    .field label { font-size: 12px; color: var(--text-3); display: block; margin-bottom: 5px; }
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      background: var(--crema);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      font-size: 14px;
+      color: var(--text);
+      font-family: inherit;
+      outline: none;
+      appearance: none;
+    }
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus { border-color: var(--verde); }
+    .field textarea { height: 72px; resize: none; }
+    .field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='%23888' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; }
+
+    /* SECTOR INFO */
+    .sector-info {
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      font-size: 12px;
+      margin-top: -8px;
+      margin-bottom: 14px;
+      display: none;
+    }
+    .sector-info.gratis { background: var(--verde-light); color: var(--verde-mid); display: block; }
+    .sector-info.recargo { background: #FAEEDA; color: #854F0B; display: block; }
+    .sector-info.franquicia { background: #EEF2FF; color: #3730A3; display: block; }
+
+    /* ENTREGA BANNER */
+    .entrega-banner {
+      background: var(--verde-light);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      margin-bottom: 14px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .entrega-banner p { font-size: 12px; color: var(--verde-mid); line-height: 1.5; }
+
+    /* TRANSFERENCIA */
+    .transfer-box {
+      background: var(--crema);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+    .transfer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 0;
+      border-bottom: 0.5px solid var(--border);
+      font-size: 13px;
+    }
+    .transfer-row:last-child { border-bottom: none; }
+    .tr-label { color: var(--text-3); }
+    .tr-val { font-weight: 500; color: var(--text); }
+    .tr-total { font-size: 18px; font-weight: 600; color: var(--verde); }
+    .copy-btn {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 11px;
+      color: var(--verde);
+      cursor: pointer;
+      font-family: inherit;
+      margin-left: 8px;
+    }
+
+    /* INFO BOX */
+    .info-box {
+      background: var(--crema);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      margin-bottom: 14px;
+      font-size: 12px;
+      color: var(--text-2);
+      line-height: 1.5;
+      display: flex;
+      gap: 8px;
+    }
+
+    /* BOTONES */
+    .btn-primary {
+      width: 100%;
+      padding: 14px;
+      background: var(--verde);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-primary:hover { background: var(--verde-dark); }
+    .btn-primary:disabled { background: var(--text-3); cursor: not-allowed; }
+    .btn-wsp {
+      width: 100%;
+      padding: 14px;
+      background: #25D366;
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .btn-secondary {
+      width: 100%;
+      padding: 13px;
+      background: transparent;
+      color: var(--text-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    /* ÉXITO */
+    .success-wrap { padding: 24px 0; text-align: center; }
+    .check-circle {
+      width: 72px; height: 72px;
+      background: var(--verde-light);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 32px;
+      color: var(--verde);
+    }
+    .success-wrap h2 { font-size: 20px; font-weight: 600; margin-bottom: 6px; }
+    .success-wrap p { font-size: 13px; color: var(--text-2); line-height: 1.6; margin-bottom: 20px; }
+    .order-num {
+      display: inline-block;
+      background: var(--verde-light);
+      border: 2px dashed var(--verde-border);
+      border-radius: var(--radius);
+      padding: 14px 28px;
+      margin-bottom: 20px;
+    }
+    .order-num .label { font-size: 11px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.8px; }
+    .order-num .num { font-size: 32px; font-weight: 700; color: var(--verde); letter-spacing: 2px; }
+
+    /* EMPTY */
+    .empty { padding: 48px 18px; text-align: center; color: var(--text-3); }
+    .empty .icon { font-size: 44px; margin-bottom: 12px; }
+    .empty p { font-size: 14px; }
+
+    /* SCREEN CONTROL */
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    /* STEPS */
+    .steps { display: flex; gap: 6px; margin-bottom: 16px; padding-top: 4px; }
+    .step { flex: 1; height: 3px; border-radius: 2px; background: var(--border); }
+    .step.done { background: var(--verde); }
+    .step.now { background: var(--amarillo); }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-top">
+    <div class="logo">
+      <div class="logo-main">elpalta<span>.cl</span></div>
+      <div class="logo-sub">Paltas y más, directo a tu puerta 🥑</div>
+    </div>
+    <button class="cart-btn" onclick="openCart()">
+      🛒 <span class="n" id="cart-count">0</span>
+    </button>
+  </div>
+  <div class="agenda" id="agenda-banner">
+    <div class="agenda-dot"></div>
+    <div class="agenda-texto">
+      <div class="agenda-titulo" id="agenda-titulo">Cargando agenda...</div>
+      <div class="agenda-sub" id="agenda-sub"></div>
+    </div>
+  </div>
+</header>
+
+<!-- CATEGORÍAS -->
+<div class="cats" id="cats-wrap"></div>
+
+<!-- PRODUCTOS -->
+<section class="section">
+  <div class="section-label" id="section-label">Productos destacados</div>
+  <div class="grid" id="products-grid"></div>
+</section>
+
+<!-- INSTAGRAM -->
+<a class="ig-banner" href="https://www.instagram.com/elpalta.cl" target="_blank">
+  <span style="font-size:22px">📸</span>
+  <div>
+    <span>Ver nuestros productos en Instagram</span>
+    <small>@elpalta.cl · fotos reales, recetas y más</small>
+  </div>
+</a>
+
+<!-- CARRITO BAR -->
+<div class="cart-bar" onclick="openCart()">
+  <div class="cart-bar-left">
+    🛒 Ver mi pedido <span class="cart-bar-badge" id="cart-bar-badge">0 items</span>
+  </div>
+  <span style="color:rgba(255,255,255,0.6);font-size:20px">›</span>
+</div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+
+<!-- DRAWER -->
+<div class="drawer" id="drawer">
+  <div class="handle"></div>
+
+  <!-- PANTALLA: carrito -->
+  <div id="view-cart" class="screen active">
+    <div class="drawer-header">
+      <h2>Mi pedido</h2>
+      <button class="close-btn" onclick="closeCart()">✕</button>
+    </div>
+    <div class="drawer-body" id="cart-body"></div>
+    <div class="drawer-footer" id="cart-footer"></div>
+  </div>
+
+  <!-- PANTALLA: formulario -->
+  <div id="view-form" class="screen">
+    <div class="drawer-header">
+      <button class="close-btn" onclick="goTo('cart')" style="background:transparent;font-size:20px">‹</button>
+      <h2>Tus datos</h2>
+      <div style="width:30px"></div>
+    </div>
+    <div class="drawer-body">
+      <div style="padding-top:14px">
+        <div class="steps">
+          <div class="step done"></div>
+          <div class="step now"></div>
+          <div class="step"></div>
+        </div>
+
+        <div class="entrega-banner" id="entrega-banner">
+          <span>🚚</span>
+          <p id="entrega-texto">Calculando fecha de entrega...</p>
+        </div>
+
+        <!-- Resumen -->
+        <div class="section-label">Resumen de tu pedido</div>
+        <div id="form-resumen" style="margin-bottom:16px"></div>
+
+        <!-- Datos personales -->
+        <div class="section-label">Tus datos</div>
+        <div class="field">
+          <label>Nombre completo *</label>
+          <input type="text" id="f-nombre" placeholder="Ana González">
+        </div>
+        <div class="field">
+          <label>WhatsApp *</label>
+          <input type="tel" id="f-wsp" placeholder="+56 9 XXXX XXXX">
+        </div>
+        <div class="field">
+          <label>Sector *</label>
+          <select id="f-sector" onchange="onSectorChange()">
+            <option value="">Selecciona tu sector</option>
+            <optgroup label="Despacho gratis">
+              <option value="gratis|Centro">Centro</option>
+              <option value="gratis|Estadio">Estadio</option>
+              <option value="gratis|Los Pablos">Los Pablos</option>
+              <option value="gratis|Las Encinas">Las Encinas</option>
+              <option value="gratis|Los Conquistadores">Los Conquistadores</option>
+              <option value="gratis|Altos de Maipo">Altos de Maipo</option>
+              <option value="gratis|Los Naranjos">Los Naranjos</option>
+              <option value="gratis|Hacienda San Sebastián">Hacienda San Sebastián</option>
+              <option value="gratis|Camino Botrolhue">Camino Botrolhue</option>
+            </optgroup>
+            <optgroup label="Con recargo">
+              <option value="recargo|Las Quilas">Las Quilas</option>
+              <option value="recargo|Estación">Estación</option>
+              <option value="recargo|Los Trigales">Los Trigales</option>
+              <option value="recargo|Campos Deportivos">Campos Deportivos</option>
+            </optgroup>
+            <optgroup label="Sectores con despacho especial">
+              <option value="franquicia|Sector Norte|56900000001">Sector Norte</option>
+              <option value="franquicia|Padre Las Casas|56900000002">Padre Las Casas</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="sector-info" id="sector-info"></div>
+        <div class="field">
+          <label>Dirección exacta *</label>
+          <input type="text" id="f-dir" placeholder="Calle, número, depto/casa...">
+        </div>
+        <div class="field">
+          <label>Observaciones (opcional)</label>
+          <textarea id="f-obs" placeholder="Ej: tocar timbre, dejar con el vecino..."></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="drawer-footer">
+      <button class="btn-primary" onclick="goTo('pago')">Continuar al pago →</button>
+    </div>
+  </div>
+
+  <!-- PANTALLA: pago -->
+  <div id="view-pago" class="screen">
+    <div class="drawer-header">
+      <button class="close-btn" onclick="goTo('form')" style="background:transparent;font-size:20px">‹</button>
+      <h2>Pago por transferencia</h2>
+      <div style="width:30px"></div>
+    </div>
+    <div class="drawer-body">
+      <div style="padding-top:14px">
+        <div class="steps">
+          <div class="step done"></div>
+          <div class="step done"></div>
+          <div class="step now"></div>
+        </div>
+
+        <div class="section-label">Datos para transferir</div>
+        <div class="transfer-box">
+          <div class="transfer-row">
+            <span class="tr-label">Banco</span>
+            <span class="tr-val">BCI / Banco Crédito e Inversiones</span>
+          </div>
+          <div class="transfer-row">
+            <span class="tr-label">Tipo</span>
+            <span class="tr-val">Cuenta Corriente</span>
+          </div>
+          <div class="transfer-row">
+            <span class="tr-label">N° de cuenta</span>
+            <span class="tr-val">777919519570 <button class="copy-btn" onclick="copiar('777919519570',this)">Copiar</button></span>
+          </div>
+          <div class="transfer-row">
+            <span class="tr-label">RUT</span>
+            <span class="tr-val">19.519.570-6 <button class="copy-btn" onclick="copiar('19519570-6',this)">Copiar</button></span>
+          </div>
+          <div class="transfer-row">
+            <span class="tr-label">Nombre</span>
+            <span class="tr-val">Matías Nicolás Bernales Ávila</span>
+          </div>
+          <div class="transfer-row">
+            <span class="tr-label">Email</span>
+            <span class="tr-val">matiasbernales@yahoo.com</span>
+          </div>
+          <div class="transfer-row" style="padding-top:10px">
+            <span class="tr-label" style="font-size:14px;font-weight:500;color:var(--text)">Monto a transferir</span>
+            <span class="tr-total" id="pago-total">$0</span>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <span>ℹ️</span>
+          <span>Transfiere el monto exacto y envíanos el comprobante por WhatsApp al confirmar. Tu pedido queda reservado una vez que recibamos el pago.</span>
+        </div>
+      </div>
+    </div>
+    <div class="drawer-footer">
+      <button class="btn-wsp" onclick="confirmarPedido()">
+        💬 Ya transferí — enviar comprobante
+      </button>
+    </div>
+  </div>
+
+  <!-- PANTALLA: éxito -->
+  <div id="view-exito" class="screen">
+    <div class="drawer-header">
+      <h2 style="width:100%;text-align:center">¡Pedido registrado!</h2>
+    </div>
+    <div class="drawer-body">
+      <div class="success-wrap">
+        <div class="check-circle">✓</div>
+        <h2>¡Todo listo!</h2>
+        <p>Enviaste tu comprobante y tu pedido quedó registrado.<br>Te confirmamos por WhatsApp cuando esté listo.</p>
+        <div class="order-num">
+          <div class="label">Número de pedido</div>
+          <div class="num" id="order-num">—</div>
+        </div>
+        <p style="font-size:12px;color:var(--text-3)">Guarda este número por si necesitas consultar tu pedido</p>
+      </div>
+    </div>
+    <div class="drawer-footer">
+      <button class="btn-secondary" onclick="resetPedido()">Hacer otro pedido</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── CONFIGURACIÓN ────────────────────────────────────────────────────────────
+const CFG = {
+  WSP_NEGOCIO: '56995443268',
+  INSTAGRAM: 'https://www.instagram.com/elpalta.cl',
+  // Horario agenda: cierra día anterior a las 20:00
+  // Reparto: lunes y viernes
+  REPARTOS: [1, 5], // 1=lunes, 5=viernes
+  HORA_CIERRE: 20,
+};
+
+// ─── CATÁLOGO ─────────────────────────────────────────────────────────────────
+const CATS_LIST = [
+  { id: 'todos',     label: 'Todos' },
+  { id: 'ancla',     label: 'Ancla' },
+  { id: 'temporada', label: 'Temporada' },
+];
+
+const PRODUCTOS = [
+  { id: 1, name: 'Palta Hass',      desc: 'Malla x6 unidades',  price: 4900, cat: 'ancla',     icon: '🥑', temp: false },
+  { id: 2, name: 'Huevos',          desc: 'Bandeja x12',         price: 3200, cat: 'ancla',     icon: '🥚', temp: false },
+  { id: 3, name: 'Limones',         desc: 'Bolsa x1kg',          price: 1200, cat: 'temporada', icon: '🍋', temp: true  },
+  { id: 4, name: 'Mandarinas',      desc: 'Bolsa x1kg',          price: 1500, cat: 'temporada', icon: '🍊', temp: true  },
+];
+
+const TEMP_ACTUAL = ['Limones', 'Mandarinas'];
+
+// ─── ESTADO ───────────────────────────────────────────────────────────────────
+let cart = {};
+let currentCat = 'todos';
+let pedidoActual = {};
+
+// ─── AGENDA AUTOMÁTICA ────────────────────────────────────────────────────────
+function calcularAgenda() {
+  const now = new Date();
+  const dia = now.getDay();
+  const hora = now.getHours();
+
+  // Día anterior al reparto es cuando cierra la agenda
+  // Lunes (1) → agenda cierra domingo (0) a las 20:00
+  // Viernes (5) → agenda cierra jueves (4) a las 20:00
+  const cierres = { 0: 1, 4: 5 }; // dia_cierre: dia_reparto
+  const repartos = { 1: 'lunes', 5: 'viernes' };
+
+  // Determinar próximo reparto
+  let diasHastaReparto = null;
+  let diaReparto = null;
+
+  for (let r of CFG.REPARTOS) {
+    const diaCierre = (r - 1 + 7) % 7;
+    let diff;
+
+    if (dia === diaCierre && hora < CFG.HORA_CIERRE) {
+      // Estamos en día de cierre y antes de las 20:00 → este reparto
+      diff = 1;
+      diaReparto = r;
+      diasHastaReparto = diff;
+      break;
+    } else {
+      // Calcular días hasta el reparto
+      diff = (r - dia + 7) % 7;
+      if (diff === 0) diff = 7; // Ya pasó hoy
+      // Si el día anterior ya cerró
+      const diaCierreEsteReparto = (r - 1 + 7) % 7;
+      if (dia === diaCierreEsteReparto && hora >= CFG.HORA_CIERRE) {
+        diff = (r - dia + 7) % 7;
+        if (diff === 0) diff = 7;
+      }
+      if (diasHastaReparto === null || diff < diasHastaReparto) {
+        diasHastaReparto = diff;
+        diaReparto = r;
+      }
+    }
+  }
+
+  const fechaReparto = new Date(now);
+  fechaReparto.setDate(now.getDate() + diasHastaReparto);
+
+  const diaCierreReparto = (diaReparto - 1 + 7) % 7;
+  const fechaCierre = new Date(fechaReparto);
+  fechaCierre.setDate(fechaReparto.getDate() - 1);
+
+  const dias = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+  const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+
+  return {
+    diaReparto: dias[diaReparto],
+    fechaReparto: `${dias[fechaReparto.getDay()]} ${fechaReparto.getDate()} de ${meses[fechaReparto.getMonth()]}`,
+    diaCierre: dias[diaCierreReparto],
+    fechaCierre: `${dias[fechaCierre.getDay()]} ${fechaCierre.getDate()} de ${meses[fechaCierre.getMonth()]}`,
+  };
+}
+
+function renderAgenda() {
+  const a = calcularAgenda();
+  document.getElementById('agenda-titulo').textContent = `Agenda abierta — entrega el ${a.fechaReparto}`;
+  document.getElementById('agenda-sub').textContent = `Cierre el ${a.diaCierre} a las 20:00 hrs`;
+  pedidoActual.agenda = a;
+}
+
+// ─── CATEGORÍAS ───────────────────────────────────────────────────────────────
+function renderCats() {
+  document.getElementById('cats-wrap').innerHTML = CATS_LIST.map(c =>
+    `<button class="cat${c.id === currentCat ? ' active' : ''}" onclick="filtrar('${c.id}')">${c.label}</button>`
+  ).join('');
+}
+
+function filtrar(id) {
+  currentCat = id;
+  document.getElementById('section-label').textContent =
+    id === 'todos' ? 'Productos destacados' :
+    id === 'ancla' ? 'Productos ancla' : 'Productos de temporada';
+  renderCats();
+  renderProductos();
+}
+
+// ─── PRODUCTOS ────────────────────────────────────────────────────────────────
+function renderProductos() {
+  const lista = currentCat === 'todos' ? PRODUCTOS : PRODUCTOS.filter(p => p.cat === currentCat);
+  const grid = document.getElementById('products-grid');
+
+  if (currentCat === 'temporada' || currentCat === 'todos') {
+    const seccion = document.getElementById('section-label');
+    if (currentCat === 'temporada' && TEMP_ACTUAL.length) {
+      // ya está el label
+    }
+  }
+
+  grid.innerHTML = lista.map(p => {
+    const qty = cart[p.id] || 0;
+    return `
+      <div class="card">
+        <div class="card-img">${p.icon}</div>
+        <div class="card-body">
+          <div class="card-name">${p.name}</div>
+          <div class="card-desc">${p.desc}</div>
+          <div class="card-price">${fmt(p.price)}</div>
+          <button class="add-btn${qty > 0 ? ' in' : ''}" onclick="agregar(${p.id})">
+            ${qty > 0 ? `✓ En carrito (${qty})` : '+ Agregar'}
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ─── CARRITO ──────────────────────────────────────────────────────────────────
+function agregar(id) {
+  cart[id] = (cart[id] || 0) + 1;
+  updateBadge();
+  renderProductos();
+}
+
+function cambiarQty(id, delta) {
+  const nueva = (cart[id] || 0) + delta;
+  if (nueva <= 0) delete cart[id]; else cart[id] = nueva;
+  updateBadge();
+  renderProductos();
+  renderCartBody();
+}
+
+function updateBadge() {
+  const n = Object.values(cart).reduce((s, v) => s + v, 0);
+  document.getElementById('cart-count').textContent = n;
+  document.getElementById('cart-bar-badge').textContent = n + (n === 1 ? ' item' : ' items');
+}
+
+function calcTotales() {
+  const items = Object.entries(cart).map(([id, qty]) => {
+    const p = PRODUCTOS.find(x => x.id === Number(id));
+    return { ...p, qty };
+  });
+  const total = items.reduce((s, i) => s + i.price * i.qty, 0);
+  return { items, total };
+}
+
+function renderCartBody() {
+  const { items, total } = calcTotales();
+  const body = document.getElementById('cart-body');
+  const footer = document.getElementById('cart-footer');
+
+  if (!items.length) {
+    body.innerHTML = `<div class="empty"><div class="icon">🥑</div><p>Tu carrito está vacío.<br>Agrega productos del catálogo.</p></div>`;
+    footer.innerHTML = '';
+    return;
+  }
+
+  body.innerHTML = items.map(i => `
+    <div class="cart-item">
+      <div class="ci-icon">${i.icon}</div>
+      <div class="ci-info">
+        <div class="ci-name">${i.name}</div>
+        <div class="ci-unit">${fmt(i.price)} c/u</div>
+      </div>
+      <div class="qty-ctrl">
+        <button class="qty-btn${i.qty === 1 ? ' rm' : ''}" onclick="cambiarQty(${i.id},-1)">${i.qty === 1 ? '✕' : '−'}</button>
+        <span class="qty-num">${i.qty}</span>
+        <button class="qty-btn" onclick="cambiarQty(${i.id},1)">+</button>
+      </div>
+      <div class="ci-price">${fmt(i.price * i.qty)}</div>
+    </div>
+  `).join('');
+
+  footer.innerHTML = `
+    <div style="margin-bottom:14px">
+      <div class="total-final">
+        <span>Total</span>
+        <span>${fmt(total)}</span>
+      </div>
+    </div>
+    <button class="btn-primary" onclick="goTo('form')">Ingresar mis datos →</button>
+  `;
+}
+
+// ─── SECTOR ───────────────────────────────────────────────────────────────────
+function onSectorChange() {
+  const sel = document.getElementById('f-sector').value;
+  const info = document.getElementById('sector-info');
+  info.className = 'sector-info';
+  info.textContent = '';
+
+  if (!sel) return;
+  const [tipo, nombre, wsp] = sel.split('|');
+
+  if (tipo === 'gratis') {
+    info.className = 'sector-info gratis';
+    info.textContent = '✓ Tu sector tiene despacho gratuito';
+  } else if (tipo === 'recargo') {
+    info.className = 'sector-info recargo';
+    info.textContent = '⚡ Este sector puede tener recargo de despacho. Te confirmaremos el monto por WhatsApp.';
+  } else if (tipo === 'franquicia') {
+    info.className = 'sector-info franquicia';
+    info.textContent = `📦 Tu sector tiene despacho especial. Tu pedido será gestionado por nuestro equipo en ${nombre}.`;
+  }
+}
+
+// ─── NAVEGACIÓN ───────────────────────────────────────────────────────────────
+function openCart() {
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('drawer').classList.add('open');
+  goTo('cart');
+  renderCartBody();
+}
+
+function closeCart() {
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('drawer').classList.remove('open');
+}
+
+function goTo(screen) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('view-' + screen).classList.add('active');
+
+  if (screen === 'form') renderForm();
+  if (screen === 'pago') renderPago();
+}
+
+function renderForm() {
+  const a = calcularAgenda();
+  document.getElementById('entrega-texto').innerHTML =
+    `Tu pedido llegará el <strong>${a.fechaReparto}</strong>. Agenda cierra el ${a.diaCierre} a las 20:00.`;
+
+  const { items, total } = calcTotales();
+  document.getElementById('form-resumen').innerHTML = `
+    <div style="background:var(--crema);border-radius:var(--radius-sm);padding:12px 14px;font-size:13px">
+      ${items.map(i => `
+        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:0.5px solid var(--border)">
+          <span>${i.icon} ${i.name} x${i.qty}</span>
+          <span style="font-weight:500;color:var(--verde)">${fmt(i.price * i.qty)}</span>
+        </div>
+      `).join('')}
+      <div style="display:flex;justify-content:space-between;padding-top:10px;font-weight:600">
+        <span>Total</span><span style="color:var(--verde)">${fmt(total)}</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderPago() {
+  const { total } = calcTotales();
+  document.getElementById('pago-total').textContent = fmt(total);
+}
+
+// ─── CONFIRMAR PEDIDO ─────────────────────────────────────────────────────────
+function confirmarPedido() {
+  const nombre = document.getElementById('f-nombre')?.value?.trim() || '';
+  const wsp = document.getElementById('f-wsp')?.value?.trim() || '';
+  const sectorVal = document.getElementById('f-sector')?.value || '';
+  const dir = document.getElementById('f-dir')?.value?.trim() || '';
+
+  if (!nombre || !wsp || !sectorVal || !dir) {
+    alert('Por favor completa todos los campos obligatorios antes de continuar.');
+    goTo('form');
+    return;
+  }
+
+  const [tipo, sector, wspFranquicia] = sectorVal.split('|');
+  const { items, total } = calcTotales();
+  const num = 'EP-' + String(Math.floor(1000 + Math.random() * 9000));
+  const obs = document.getElementById('f-obs')?.value?.trim() || '';
+  const a = calcularAgenda();
+
+  // Guardar en Google Sheets vía Apps Script (se activa cuando tengas la URL)
+  // guardarEnSheets({ num, nombre, wsp, sector, dir, items, total, fecha: a.fechaReparto });
+
+  // Mensaje al NEGOCIO
+  const msgNegocio = [
+    `🥑 *PEDIDO NUEVO ${num}*`,
+    ``,
+    `👤 ${nombre}`,
+    `📱 ${wsp}`,
+    `📍 ${sector} — ${dir}`,
+    obs ? `📝 ${obs}` : '',
+    ``,
+    `*Productos:*`,
+    ...items.map(i => `• ${i.icon} ${i.name} x${i.qty} — ${fmt(i.price * i.qty)}`),
+    ``,
+    `*Total: ${fmt(total)}*`,
+    ``,
+    `📅 Entrega: ${a.fechaReparto}`,
+    tipo === 'franquicia' ? `\n⚠️ Sector franquiciado: ${sector}` : '',
+  ].filter(Boolean).join('\n');
+
+  // Si es franquicia, el mensaje va al franquiciado
+  const destinatario = tipo === 'franquicia' ? wspFranquicia : CFG.WSP_NEGOCIO;
+
+  // Mensaje al CLIENTE con datos de comprobante
+  const msgCliente = [
+    `Hola ${nombre.split(' ')[0]} 👋 Te escribimos de *elpalta.cl*.`,
+    ``,
+    `Tu pedido *${num}* quedó registrado.`,
+    ``,
+    `*Resumen:*`,
+    ...items.map(i => `• ${i.name} x${i.qty}`),
+    ``,
+    `*Total: ${fmt(total)}*`,
+    `📅 Entrega: ${a.fechaReparto}`,
+    ``,
+    `Por favor envíanos el comprobante de transferencia a este número para confirmar tu pedido. ¡Gracias por elegirnos! 🥑`,
+  ].join('\n');
+
+  // Abrir WhatsApp del negocio con comprobante
+  const url = `https://wa.me/${destinatario}?text=${encodeURIComponent(msgNegocio)}`;
+  window.open(url, '_blank');
+
+  // Mostrar éxito
+  document.getElementById('order-num').textContent = num;
+  goTo('exito');
+
+  // Limpiar carrito
+  cart = {};
+  updateBadge();
+  renderProductos();
+}
+
+// ─── HELPERS ──────────────────────────────────────────────────────────────────
+function fmt(n) {
+  return '$' + Math.round(n).toLocaleString('es-CL');
+}
+
+function copiar(texto, btn) {
+  navigator.clipboard.writeText(texto).then(() => {
+    btn.textContent = '✓ Copiado';
+    setTimeout(() => btn.textContent = 'Copiar', 2000);
+  });
+}
+
+function resetPedido() {
+  closeCart();
+  goTo('cart');
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+renderAgenda();
+renderCats();
+renderProductos();
+</script>
+</body>
+</html>
