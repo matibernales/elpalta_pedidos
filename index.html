@@ -755,10 +755,9 @@
 const CFG = {
   WSP_NEGOCIO: '56995443268',
   INSTAGRAM: 'https://www.instagram.com/elpalta.cl',
-  // Horario agenda: cierra día anterior a las 20:00
-  // Reparto: lunes y viernes
   REPARTOS: [1, 5], // 1=lunes, 5=viernes
   HORA_CIERRE: 20,
+  SHEETS_URL: 'https://script.google.com/macros/s/AKfycbxU8YIEyMchDHe3jiP0uGhid1GioAP0n0LwTlIsh92MwlBxiqQXwF7EFNfenBTR4NzV/exec',
 };
 
 // ─── CATÁLOGO ─────────────────────────────────────────────────────────────────
@@ -1053,8 +1052,18 @@ function confirmarPedido() {
   const obs = document.getElementById('f-obs')?.value?.trim() || '';
   const a = calcularAgenda();
 
-  // Guardar en Google Sheets vía Apps Script (se activa cuando tengas la URL)
-  // guardarEnSheets({ num, nombre, wsp, sector, dir, items, total, fecha: a.fechaReparto });
+  // Guardar en Google Sheets
+  guardarEnSheets({
+    numero: num,
+    nombre,
+    whatsapp: wsp,
+    sector,
+    direccion: dir,
+    productos: items.map(i => `${i.name} x${i.qty}`).join(', '),
+    total: fmt(total),
+    observaciones: obs,
+    esFranquicia: tipo === 'franquicia' ? sector : 'No'
+  });
 
   // Mensaje al NEGOCIO
   const msgNegocio = [
@@ -1121,6 +1130,20 @@ function copiar(texto, btn) {
 function resetPedido() {
   closeCart();
   goTo('cart');
+}
+
+// ─── GOOGLE SHEETS ───────────────────────────────────────────────────────────
+async function guardarEnSheets(data) {
+  try {
+    await fetch(CFG.SHEETS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch(e) {
+    console.log('Error al guardar en sheets:', e);
+  }
 }
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
