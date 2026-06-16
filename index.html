@@ -1138,7 +1138,7 @@ function resetPedido() {
 async function guardarEnSheets(data) {
   try {
     // Llamamos a nuestra propia API en Vercel — evita restricciones de Safari iOS
-    await fetch('/api/pedido', {
+    await fetch('https://elpalta-api-kvw5.vercel.app/api/pedido', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
