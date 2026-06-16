@@ -763,20 +763,20 @@ const CFG = {
 
 // ─── CATÁLOGO ─────────────────────────────────────────────────────────────────
 const CATS_LIST = [
-  { id: 'Todos',     label: 'Todos' },
-  { id: 'Siempre disponibles',     label: 'Siempre disponibles' },
-  { id: 'Rotativos', label: 'Rotativos' },
+  { id: 'todos',                  label: 'Todos' },
+  { id: 'Siempre disponibles',    label: 'Siempre disponibles' },
+  { id: 'Rotativos',              label: 'Rotativos' },
 ];
 
 const PRODUCTOS = [
-  { id: 1, name: 'Palta Hass',      desc: 'Malla 2kg',           price: 8000, cat: 'Siempre disponibles',     icon: '🥑', temp: false },
-  { id: 2, name: 'Palta hass',      desc: 'PROMO 3KG',           price: 11000, cat:  'Siempre disponibles', icon:  '🥑', temp: false },
-  { id: 3, name: 'Huevos',          desc: '2 Bandejas x30 (60 huevos)',         price: 15580, cat: 'Siempre disponibles',     icon: '🥚', temp: false },
-  { id: 4, name: 'Promo palta + huevo' desc: '2kg palta + 60 huevos', price: 23000, cat: 'Siempre disponibles',   icon:'🥑🥚', temp: false },
-  { id: 5, name: 'Box VIT C',         desc: '5kg limones + 5kg mandarinas',          price: 11000, cat: 'Rotativos', icon: '🍋🍊', temp: true  },
+  { id: 1, name: 'Palta Hass',           desc: 'Malla 2kg',                       price: 8000,  cat: 'Siempre disponibles', icon: '🥑',   temp: false },
+  { id: 2, name: 'Palta Hass',           desc: 'PROMO 3kg',                       price: 11000, cat: 'Siempre disponibles', icon: '🥑',   temp: false },
+  { id: 3, name: 'Huevos',               desc: '2 Bandejas x30 (60 huevos)',      price: 15580, cat: 'Siempre disponibles', icon: '🥚',   temp: false },
+  { id: 4, name: 'Promo Palta + Huevo',  desc: '2kg palta + 60 huevos',           price: 23000, cat: 'Siempre disponibles', icon: '🥑🥚', temp: false },
+  { id: 5, name: 'Box Vit C',            desc: '5kg limones + 5kg mandarinas',    price: 11000, cat: 'Rotativos',           icon: '🍋🍊', temp: true  },
 ];
 
-const TEMP_ACTUAL = ['Limones', 'Mandarinas'];
+const TEMP_ACTUAL = ['Box Vit C'];
 
 // ─── ESTADO ───────────────────────────────────────────────────────────────────
 let cart = {};
@@ -862,7 +862,7 @@ function filtrar(id) {
   currentCat = id;
   document.getElementById('section-label').textContent =
     id === 'todos' ? 'Productos destacados' :
-    id === 'ancla' ? 'Productos ancla' : 'Productos de temporada';
+    id === 'Siempre disponibles' ? 'Siempre disponibles' : 'Productos rotativos';
   renderCats();
   renderProductos();
 }
@@ -1130,4 +1130,3 @@ renderProductos();
 </script>
 </body>
 </html>
-
