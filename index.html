@@ -244,25 +244,21 @@
     }
     .overlay.open { display: block; }
 
-    /* DRAWER */
+    /* DRAWER - pantalla completa para mejor soporte móvil */
     .drawer {
       position: fixed;
-      bottom: 0;
-      left: 50%;
+      top: 0; left: 50%; right: 0; bottom: 0;
       width: 100%;
       max-width: 430px;
-      background: var(--surface);
-      border-radius: 20px 20px 0 0;
+      background: var(--crema);
       z-index: 201;
-      max-height: 95vh;
-      height: 95vh;
       display: flex;
       flex-direction: column;
-      transform: translateX(-50%) translateY(100%);
+      transform: translateX(-50%) translateX(110%);
       transition: transform 0.3s cubic-bezier(0.32,0.72,0,1);
     }
-    .drawer.open { transform: translateX(-50%) translateY(0); }
-    .handle { width: 40px; height: 4px; background: var(--border); border-radius: 2px; margin: 12px auto 0; flex-shrink: 0; }
+    .drawer.open { transform: translateX(-50%); }
+    .handle { display: none; }
     .drawer-header {
       padding: 14px 18px 12px;
       border-bottom: 1px solid var(--border);
@@ -270,6 +266,7 @@
       align-items: center;
       justify-content: space-between;
       flex-shrink: 0;
+      background: var(--surface);
     }
     .drawer-header h2 { font-size: 17px; font-weight: 600; }
     .close-btn {
@@ -283,8 +280,18 @@
       display: flex; align-items: center; justify-content: center;
       font-family: inherit;
     }
-    .drawer-body { overflow-y: auto; flex: 1; padding: 0 18px; -webkit-overflow-scrolling: touch; }
-    .drawer-footer { padding: 14px 18px 34px; border-top: 1px solid var(--border); flex-shrink: 0; background: var(--surface); }
+    .drawer-body {
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      flex: 1;
+      padding: 0 18px;
+    }
+    .drawer-footer {
+      padding: 14px 18px 40px;
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+      background: var(--surface);
+    }
 
     /* ITEMS CARRITO */
     .cart-item {
@@ -756,16 +763,17 @@ const CFG = {
 
 // ─── CATÁLOGO ─────────────────────────────────────────────────────────────────
 const CATS_LIST = [
-  { id: 'todos',     label: 'Todos' },
-  { id: 'ancla',     label: 'Ancla' },
-  { id: 'temporada', label: 'Temporada' },
+  { id: 'Todos',     label: 'Todos' },
+  { id: 'Siempre disponibles',     label: 'Siempre disponibles' },
+  { id: 'Rotativos', label: 'Rotativos' },
 ];
 
 const PRODUCTOS = [
-  { id: 1, name: 'Palta Hass',      desc: 'Malla x6 unidades',  price: 4900, cat: 'ancla',     icon: '🥑', temp: false },
-  { id: 2, name: 'Huevos',          desc: 'Bandeja x12',         price: 3200, cat: 'ancla',     icon: '🥚', temp: false },
-  { id: 3, name: 'Limones',         desc: 'Bolsa x1kg',          price: 1200, cat: 'temporada', icon: '🍋', temp: true  },
-  { id: 4, name: 'Mandarinas',      desc: 'Bolsa x1kg',          price: 1500, cat: 'temporada', icon: '🍊', temp: true  },
+  { id: 1, name: 'Palta Hass',      desc: 'Malla 2kg',           price: 8000, cat: 'Siempre disponibles',     icon: '🥑', temp: false },
+  { id: 2, name: 'Palta hass',      desc: 'PROMO 3KG',           price: 11000, cat:  'Siempre disponibles', icon:  '🥑', temp: false },
+  { id: 3, name: 'Huevos',          desc: '2 Bandejas x30 (60 huevos)',         price: 15580, cat: 'Siempre disponibles',     icon: '🥚', temp: false },
+  { id: 4, name: 'Promo palta + huevo' desc: '2kg palta + 60 huevos', price: 23000, cat: 'Siempre disponibles',   icon:'🥑🥚', temp: false },
+  { id: 5, name: 'Box VIT C',         desc: '5kg limones + 5kg mandarinas',          price: 11000, cat: 'Rotativos', icon: '🍋🍊', temp: true  },
 ];
 
 const TEMP_ACTUAL = ['Limones', 'Mandarinas'];
@@ -1122,3 +1130,4 @@ renderProductos();
 </script>
 </body>
 </html>
+
