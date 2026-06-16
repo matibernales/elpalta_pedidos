@@ -1137,25 +1137,43 @@ function resetPedido() {
 // ─── GOOGLE SHEETS ───────────────────────────────────────────────────────────
 function guardarEnSheets(data) {
   try {
-    const params = new URLSearchParams();
-    params.append('numero',       data.numero);
-    params.append('nombre',       data.nombre);
-    params.append('whatsapp',     data.whatsapp);
-    params.append('sector',       data.sector);
-    params.append('direccion',    data.direccion);
-    params.append('productos',    data.productos);
-    params.append('total',        data.total);
-    params.append('observaciones',data.observaciones || '');
-    params.append('esFranquicia', data.esFranquicia || 'No');
-
-    const url = CFG.SHEETS_URL + '?' + params.toString();
-
-    // Iframe invisible — funciona en Safari iOS y todos los navegadores
+    // Formulario nativo — único método que Safari iOS no bloquea
     const iframe = document.createElement('iframe');
+    iframe.name = 'sheets-target';
     iframe.style.display = 'none';
-    iframe.src = url;
     document.body.appendChild(iframe);
+
+    const form = document.createElement('form');
+    form.method = 'GET';
+    form.action = CFG.SHEETS_URL;
+    form.target = 'sheets-target';
+    form.style.display = 'none';
+
+    const campos = {
+      numero:        data.numero,
+      nombre:        data.nombre,
+      whatsapp:      data.whatsapp,
+      sector:        data.sector,
+      direccion:     data.direccion,
+      productos:     data.productos,
+      total:         data.total,
+      observaciones: data.observaciones || '',
+      esFranquicia:  data.esFranquicia  || 'No'
+    };
+
+    Object.entries(campos).forEach(([k, v]) => {
+      const input = document.createElement('input');
+      input.type  = 'hidden';
+      input.name  = k;
+      input.value = v;
+      form.appendChild(input);
+    });
+
+    document.body.appendChild(form);
+    form.submit();
+
     setTimeout(() => {
+      try { document.body.removeChild(form); } catch(e) {}
       try { document.body.removeChild(iframe); } catch(e) {}
     }, 5000);
   } catch(e) {
