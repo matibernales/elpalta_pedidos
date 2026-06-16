@@ -1031,17 +1031,25 @@ function renderForm() {
 function renderPago() {
   const { total } = calcTotales();
   document.getElementById('pago-total').textContent = fmt(total);
+  // Guardar datos del formulario en estado antes de cambiar pantalla
+  pedidoActual.nombre   = document.getElementById('f-nombre')?.value?.trim() || '';
+  pedidoActual.wsp      = document.getElementById('f-wsp')?.value?.trim() || '';
+  pedidoActual.sector   = document.getElementById('f-sector')?.value || '';
+  pedidoActual.dir      = document.getElementById('f-dir')?.value?.trim() || '';
+  pedidoActual.obs      = document.getElementById('f-obs')?.value?.trim() || '';
 }
 
 // ─── CONFIRMAR PEDIDO ─────────────────────────────────────────────────────────
 function confirmarPedido() {
-  const nombre = document.getElementById('f-nombre')?.value?.trim() || '';
-  const wsp = document.getElementById('f-wsp')?.value?.trim() || '';
-  const sectorVal = document.getElementById('f-sector')?.value || '';
-  const dir = document.getElementById('f-dir')?.value?.trim() || '';
+  // Usar datos guardados al pasar a pantalla de pago
+  const nombre   = pedidoActual.nombre || '';
+  const wsp      = pedidoActual.wsp    || '';
+  const sectorVal= pedidoActual.sector || '';
+  const dir      = pedidoActual.dir    || '';
+  const obs      = pedidoActual.obs    || '';
 
   if (!nombre || !wsp || !sectorVal || !dir) {
-    alert('Por favor completa todos los campos obligatorios antes de continuar.');
+    alert('Por favor vuelve y completa todos los campos.');
     goTo('form');
     return;
   }
@@ -1049,7 +1057,6 @@ function confirmarPedido() {
   const [tipo, sector, wspFranquicia] = sectorVal.split('|');
   const { items, total } = calcTotales();
   const num = 'EP-' + String(Math.floor(1000 + Math.random() * 9000));
-  const obs = document.getElementById('f-obs')?.value?.trim() || '';
   const a = calcularAgenda();
 
   // Guardar en Google Sheets
@@ -1133,14 +1140,23 @@ function resetPedido() {
 }
 
 // ─── GOOGLE SHEETS ───────────────────────────────────────────────────────────
-async function guardarEnSheets(data) {
+function guardarEnSheets(data) {
   try {
-    await fetch(CFG.SHEETS_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
+    // Usamos imagen invisible para evitar bloqueo CORS de Apps Script
+    const params = new URLSearchParams();
+    params.append('numero',       data.numero);
+    params.append('nombre',       data.nombre);
+    params.append('whatsapp',     data.whatsapp);
+    params.append('sector',       data.sector);
+    params.append('direccion',    data.direccion);
+    params.append('productos',    data.productos);
+    params.append('total',        data.total);
+    params.append('observaciones',data.observaciones || '');
+    params.append('esFranquicia', data.esFranquicia || 'No');
+
+    const url = CFG.SHEETS_URL + '?' + params.toString();
+    const img = new Image();
+    img.src = url;
   } catch(e) {
     console.log('Error al guardar en sheets:', e);
   }
