@@ -1137,7 +1137,6 @@ function resetPedido() {
 // ─── GOOGLE SHEETS ───────────────────────────────────────────────────────────
 function guardarEnSheets(data) {
   try {
-    // Usamos imagen invisible para evitar bloqueo CORS de Apps Script
     const params = new URLSearchParams();
     params.append('numero',       data.numero);
     params.append('nombre',       data.nombre);
@@ -1150,8 +1149,15 @@ function guardarEnSheets(data) {
     params.append('esFranquicia', data.esFranquicia || 'No');
 
     const url = CFG.SHEETS_URL + '?' + params.toString();
-    const img = new Image();
-    img.src = url;
+
+    // Iframe invisible — funciona en Safari iOS y todos los navegadores
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = url;
+    document.body.appendChild(iframe);
+    setTimeout(() => {
+      try { document.body.removeChild(iframe); } catch(e) {}
+    }, 5000);
   } catch(e) {
     console.log('Error al guardar en sheets:', e);
   }
