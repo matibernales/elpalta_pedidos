@@ -1135,47 +1135,14 @@ function resetPedido() {
 }
 
 // ─── GOOGLE SHEETS ───────────────────────────────────────────────────────────
-function guardarEnSheets(data) {
+async function guardarEnSheets(data) {
   try {
-    // Formulario nativo — único método que Safari iOS no bloquea
-    const iframe = document.createElement('iframe');
-    iframe.name = 'sheets-target';
-    iframe.style.display = 'none';
-    document.body.appendChild(iframe);
-
-    const form = document.createElement('form');
-    form.method = 'GET';
-    form.action = CFG.SHEETS_URL;
-    form.target = 'sheets-target';
-    form.style.display = 'none';
-
-    const campos = {
-      numero:        data.numero,
-      nombre:        data.nombre,
-      whatsapp:      data.whatsapp,
-      sector:        data.sector,
-      direccion:     data.direccion,
-      productos:     data.productos,
-      total:         data.total,
-      observaciones: data.observaciones || '',
-      esFranquicia:  data.esFranquicia  || 'No'
-    };
-
-    Object.entries(campos).forEach(([k, v]) => {
-      const input = document.createElement('input');
-      input.type  = 'hidden';
-      input.name  = k;
-      input.value = v;
-      form.appendChild(input);
+    // Llamamos a nuestra propia API en Vercel — evita restricciones de Safari iOS
+    await fetch('/api/pedido', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
     });
-
-    document.body.appendChild(form);
-    form.submit();
-
-    setTimeout(() => {
-      try { document.body.removeChild(form); } catch(e) {}
-      try { document.body.removeChild(iframe); } catch(e) {}
-    }, 5000);
   } catch(e) {
     console.log('Error al guardar en sheets:', e);
   }
