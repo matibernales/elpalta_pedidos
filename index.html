@@ -234,39 +234,35 @@
       font-size: 12px;
     }
 
-    /* OVERLAY */
-    .overlay {
+    /* PÁGINAS - reemplaza drawer para compatibilidad total iOS/iPad */
+    .overlay { display: none; }
+
+    .drawer {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.5);
-      z-index: 200;
-    }
-    .overlay.open { display: block; }
-
-    /* DRAWER - pantalla completa para mejor soporte móvil */
-    .drawer {
-      position: fixed;
-      top: 0; left: 50%; right: 0; bottom: 0;
       width: 100%;
       max-width: 430px;
+      left: 50%;
+      transform: translateX(-50%);
       background: var(--crema);
       z-index: 201;
-      display: flex;
-      flex-direction: column;
-      transform: translateX(-50%) translateX(110%);
-      transition: transform 0.3s cubic-bezier(0.32,0.72,0,1);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
-    .drawer.open { transform: translateX(-50%); }
+    .drawer.open { display: block; }
     .handle { display: none; }
+
     .drawer-header {
       padding: 14px 18px 12px;
       border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      flex-shrink: 0;
       background: var(--surface);
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
     .drawer-header h2 { font-size: 17px; font-weight: 600; }
     .close-btn {
@@ -280,17 +276,14 @@
       display: flex; align-items: center; justify-content: center;
       font-family: inherit;
     }
-    .drawer-body {
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      flex: 1;
-      padding: 0 18px;
-    }
+    .drawer-body { padding: 0 18px; }
     .drawer-footer {
-      padding: 14px 18px 40px;
+      padding: 14px 18px 50px;
       border-top: 1px solid var(--border);
-      flex-shrink: 0;
       background: var(--surface);
+      position: sticky;
+      bottom: 0;
+      z-index: 10;
     }
 
     /* ITEMS CARRITO */
@@ -988,15 +981,17 @@ function onSectorChange() {
 
 // ─── NAVEGACIÓN ───────────────────────────────────────────────────────────────
 function openCart() {
-  document.getElementById('overlay').classList.add('open');
   document.getElementById('drawer').classList.add('open');
+  document.body.style.overflow = 'hidden';
   goTo('cart');
   renderCartBody();
 }
 
 function closeCart() {
-  document.getElementById('overlay').classList.remove('open');
   document.getElementById('drawer').classList.remove('open');
+  document.body.style.overflow = '';
+  // scroll al top del drawer al cerrar
+  document.getElementById('drawer').scrollTop = 0;
 }
 
 function goTo(screen) {
